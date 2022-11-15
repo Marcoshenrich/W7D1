@@ -10,6 +10,7 @@
 #  description :text
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  owner_id    :bigint           not null
 #
 require 'action_view'
 
@@ -31,6 +32,10 @@ class Cat < ApplicationRecord
   has_many :rental_requests,
     class_name: :CatRentalRequest,
     dependent: :destroy
+
+  belongs_to :owner,
+    foreign_key: :owner_id,
+    class_name: :User
 
   def birth_date_cannot_be_future
     # Must check that birth_date is present because `>` will crash if run on

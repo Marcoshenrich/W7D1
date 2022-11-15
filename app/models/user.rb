@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id              :bigint           not null, primary key
+#  username        :string           not null
+#  password_digest :string           not null
+#  session_token   :string           not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
 class User < ApplicationRecord
     validates :password_digest, presence: true
     validates :session_token, :username, presence: true, uniqueness: true
@@ -5,6 +16,12 @@ class User < ApplicationRecord
     before_validation :ensure_session_token
 
     attr_reader :password
+
+    has_many :cats,
+        foreign_key: :owner_id,
+        class_name: :Cat,
+        dependent: :destroy,
+        inverse_of: :owner
 
 
 
