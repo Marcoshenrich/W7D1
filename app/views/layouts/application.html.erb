@@ -14,6 +14,23 @@
   <body>
     <nav class="main-nav">
       <h1><a href="<%= cats_url %>">99 Cats</a></h1>
+
+
+        <% if !logged_in? %>
+        <form action="<%= session_url %>" method="POST">
+        <input type="text" name="user[username]" placeholder="username">
+        <input type="password" name="user[password]" placeholder="password">
+          <button>Sign In!</button>
+        </form> 
+      <% end %>
+
+      <% if logged_in? %>
+        <h2>Welcome, <%= "#{current_user.username}"%></h2>
+        <form action="<%= session_url %>" method="POST">
+          <input type="hidden" name="_method" value="DELETE">
+          <button>Log Out!</button>
+        </form> 
+      <% end %>
     </nav>
     <main>
       <%= yield %>
